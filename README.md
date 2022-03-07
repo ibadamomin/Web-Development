@@ -1,2 +1,1 @@
-# Web-Development
-In December 2021 I started learning Web Developement through Udemey and some other online resources such as YouTUbe. Through out this time I went from knowing nothing about web development to having an extensive knowledge of JavaScript, HTML, CSS, node.js, express.js, SQL, MongoDB, and EJS. Through this challenge, I went from building static web pages to building interactive and responsive websites. 
+TinDog Starting Files
