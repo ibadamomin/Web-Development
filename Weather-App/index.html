@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+    <style>
+      body {
+        background: rgb(2, 0, 36);
+        background: linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(6, 76, 72, 1) 0%,
+          rgba(9, 121, 94, 1) 10%,
+          rgba(8, 128, 107, 1) 32%,
+          rgba(4, 165, 172, 1) 64%,
+          rgba(1, 200, 234, 1) 87%,
+          rgba(0, 212, 255, 1) 100%
+        );
+        /* background-color: rgb(36%, 18%, 59%); */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .btn {
+        border-radius: 10%;
+        color: black;
+        width: 100px;
+      }
+      .input {
+        padding-top: 15vh;
+      }
+      .btn-div {
+        padding-top: 20px;
+        text-align: center;
+      }
+      #cityInput {
+        width: 400px;
+        height: 30px;
+      }
+      .title {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        padding-left: 100px;
+      }
+      .hr {
+        margin-right: 120px;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body class="body">
+    <form class="" action="/" method="post">
+      <label for="cityInput"></label>
+      <div class="title">
+        <h1>Weather App</h1>
+        <hr class="hr" />
+      </div>
+      <div class="input">
+        <input id="cityInput" type="text" name="cityName" />
+        <div class="btn-div">
+          <button class="btn" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
