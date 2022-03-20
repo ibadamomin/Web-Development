@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
+const mongoose = require("mongoose");
 
 const homeStartingContent =
   "Welcome Back! Hope you had a great day today. Now let's write it down.";
@@ -14,17 +15,56 @@ const contactContent =
 
 const app = express();
 
-let posts = [];
-
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+mongoose.connect(
+  "mongodb+srv://ibadmomin:beaconhouse12@cluster0.lg6sx.mongodb.net/blogDB",
+  { useNewUrlParser: true }
+);
+
+const postSchema = {
+  title: String,
+  content: String,
+};
+
+const Post = mongoose.model("Post", postSchema);
+
 app.get("/", function (req, res) {
-  res.render("home", {
-    homeStartingContent,
-    posts: posts,
+  Post.find({}, function (err, posts) {
+    res.render("home", {
+      homeStartingContent: homeStartingContent,
+      posts: posts,
+    });
+  });
+});
+
+app.get("/compose", function (req, res) {
+  res.render("compose");
+});
+
+app.post("/compose", function (req, res) {
+  const posts = new Post({
+    title: req.body.postTitle,
+    content: req.body.postBody,
+  });
+  posts.save(function (err) {
+    if (!err) {
+      res.redirect("/");
+    }
+  });
+});
+
+app.get("/posts/:postId", function (req, res) {
+  const requestedPostId = req.params.postId;
+
+  Post.findOne({ _id: requestedPostId }, function (err, post) {
+    res.render("post", {
+      title: post.title,
+      content: post.content,
+    });
   });
 });
 
@@ -36,33 +76,10 @@ app.get("/contact", function (req, res) {
   res.render("contact", { contactContent });
 });
 
-app.get("/compose", function (req, res) {
-  res.render("compose");
-});
-
-app.post("/compose", function (req, res) {
-  console.log(req.body.postBody);
-  const post = {
-    title: req.body.postTitle,
-    content: req.body.postBody,
-  };
-  posts.push(post);
-
-  res.redirect("/");
-});
-
-app.get("/posts/:postName", function (req, res) {
-  const requestedTitle = _.lowerCase(req.params.postName);
-
-  posts.forEach(function (post) {
-    const storedTitle = _.lowerCase(post.title);
-
-    if (storedTitle === requestedTitle) {
-      res.render("post", { title: post.title, content: post.content });
-    }
-  });
-});
-
-app.listen(3000, function () {
-  console.log("Server started on port 3000");
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, function () {
+  console.log("Server started on port " + port);
 });
